@@ -1,0 +1,20 @@
+.element__recycle {
+  background-image: url(../../../images/recycle.svg);
+  width: 18px;
+  aspect-ratio: 1;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background-color: unset;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.element__recycle:hover {
+  opacity: .6;
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+.profile__edit-icon {
+  position: absolute;
+  max-width: 26px;
+  max-height: 26px;
+  right: calc(50% - 13px);
+  top: calc(50% - 13px);
+  visibility: hidden;
+  pointer-events: none;
+}

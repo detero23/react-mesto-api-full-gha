@@ -1,0 +1,12 @@
+.profile__name-holder {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+  .profile__name-holder {
+    gap: 10px;
+  }
+}
