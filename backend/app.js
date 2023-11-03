@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -25,6 +26,18 @@ mongoose
   .then(() => console.log('Connected'))
   .catch((err) => console.log(`Connection error '${err.name}' - '${err.message}'`));
 
+const corseAllowedOrigins = [
+  'http://kdv-h15.students.nomoredomainsrocks.ru',
+  'https://kdv-h15.students.nomoredomainsrocks.ru',
+  'https://praktikum.tk',
+  'http://praktikum.tk',
+  'localhost:3000',
+];
+app.use(cors({
+  origin: corseAllowedOrigins,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 app.use(requestLogger);
 app.post('/signin', celebrate({
   body: Joi.object().keys({
