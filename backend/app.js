@@ -29,7 +29,11 @@ mongoose
   .then(() => console.log('Connected'))
   .catch((err) => console.log(`Connection error '${err.name}' - '${err.message}'`));
 
-app.use(cors());
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(requestLogger);
 app.get('/crash-test', () => {
   setTimeout(() => {
