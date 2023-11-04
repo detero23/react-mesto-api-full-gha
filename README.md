@@ -10,7 +10,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.116.141
+IP 158.160.116.141
 
 Frontend https://kdv-h15.students.nomoredomainsrocks.ru/
 
