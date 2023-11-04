@@ -1,7 +1,7 @@
-import { creds } from "./Creds";
+import { baseUrl } from "./Creds";
 
 class AuthApi {
-  constructor({ baseUrl }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
   }
 
@@ -46,4 +46,4 @@ class AuthApi {
   }
 }
 
-export const authApi = new AuthApi(creds["apiAuth"]);
+export const authApi = new AuthApi(baseUrl);

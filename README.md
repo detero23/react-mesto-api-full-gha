@@ -10,8 +10,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.116.141
 
-Frontend https://...
+Frontend https://kdv-h15.students.nomoredomainsrocks.ru/
 
-Backend https://...
+Backend https://api.kdv-h15.students.nomoredomainsmonster.ru/

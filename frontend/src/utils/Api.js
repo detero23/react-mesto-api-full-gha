@@ -1,9 +1,9 @@
-import { creds } from "./Creds";
+import { baseUrl } from "./Creds";
 
 class Api {
-  constructor({ baseUrl, token }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    this._token = token;
+    this._token = localStorage.getItem('token');
   }
 
   getCards() {
@@ -46,7 +46,7 @@ class Api {
     return fetch(this._baseUrl + queryParams, {
       method: "GET",
       headers: {
-        authorization: this._token,
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._checkResponse);
   }
@@ -55,7 +55,7 @@ class Api {
     return fetch(this._baseUrl + queryParams, {
       method: "PATCH",
       headers: {
-        authorization: this._token,
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
@@ -66,7 +66,7 @@ class Api {
     return fetch(this._baseUrl + queryParams, {
       method: "POST",
       headers: {
-        authorization: this._token,
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
@@ -77,7 +77,7 @@ class Api {
     return fetch(this._baseUrl + queryParams, {
       method: "PUT",
       headers: {
-        authorization: this._token,
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._checkResponse);
   }
@@ -86,7 +86,7 @@ class Api {
     return fetch(this._baseUrl + queryParams, {
       method: "DELETE",
       headers: {
-        authorization: this._token,
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._checkResponse);
   }
@@ -99,4 +99,4 @@ class Api {
   }
 }
 
-export const api = new Api(creds["apiCards"]);
+export const api = new Api(baseUrl);
