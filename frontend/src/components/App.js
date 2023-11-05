@@ -198,6 +198,7 @@ export default function App() {
       .catch((err) => {
         console.error(`Check token - error ${err.status}`);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
