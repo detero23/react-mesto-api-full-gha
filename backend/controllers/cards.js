@@ -7,11 +7,7 @@ const NoAccessError = require('../errors/NoAccessError');
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new IncorrectDataError('Ошибка валидации при получении списка карточек'));
-      } else next(err);
-    });
+    .catch(next);
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -63,9 +59,7 @@ module.exports.putCardLike = (req, res, next) => Card.findByIdAndUpdate(
     res.send({ data: card });
   })
   .catch((err) => {
-    if (err.name === 'ValidationError') {
-      next(new IncorrectDataError('Ошибка валидации при проставлении лайка'));
-    } else if (err.name === 'CastError') {
+    if (err.name === 'CastError') {
       next(new IncorrectDataError('Некорректные данные карточки при проставлении лайка'));
     } else if (err.name === 'NotFoundError') {
       next(new NotFoundError('Карточка не найдена при проставлении лайка'));
@@ -84,9 +78,7 @@ module.exports.deleteCardLike = (req, res, next) => Card.findByIdAndUpdate(
     res.send({ data: card });
   })
   .catch((err) => {
-    if (err.name === 'ValidationError') {
-      next(new IncorrectDataError('Ошибка валидации при удалении лайка'));
-    } else if (err.name === 'CastError') {
+    if (err.name === 'CastError') {
       next(new IncorrectDataError('Некорректные данные карточки при удалении лайка'));
     } else if (err.name === 'NotFoundError') {
       next(new NotFoundError('Карточка не найдена при удалении лайка'));

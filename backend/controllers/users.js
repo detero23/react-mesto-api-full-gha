@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const { JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const IncorrectDataError = require('../errors/IncorrectDataError');
 const NotFoundError = require('../errors/NotFoundError');
@@ -13,11 +13,7 @@ const NoAuthError = require('../errors/NoAuthError');
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new IncorrectDataError('Ошибка валидации'));
-      } else next(err);
-    });
+    .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -55,11 +51,11 @@ module.exports.login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new IncorrectDataError('Wrong email or password'));
+        return Promise.reject(new NoAuthError('Wrong email or password'));
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new IncorrectDataError('Wrong email or password'));
+          return Promise.reject(new NoAuthError('Wrong email or password'));
         }
 
         return user;
@@ -67,7 +63,7 @@ module.exports.login = (req, res, next) => {
     })
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, JWT_SECRET, {
+        token: jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-hard-key', {
           expiresIn: '7d',
         }),
       });
@@ -87,13 +83,7 @@ module.exports.getMe = (req, res, next) => {
       }
       res.send({ data: user });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new IncorrectDataError('Некорректные данные пользователя'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь не найден'));
-      } else next(err);
-    });
+    .catch(next);
 };
 
 module.exports.getUserById = (req, res, next) => {
@@ -107,8 +97,6 @@ module.exports.getUserById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new IncorrectDataError('Некорректные данные пользователя'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь не найден'));
       } else next(err);
     });
 };
@@ -134,8 +122,6 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new IncorrectDataError('Ошибка валидации при обновлении данных пользователя'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь не найден при обновлении данных пользователя'));
       } else next(err);
     });
 };
@@ -161,10 +147,6 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new IncorrectDataError('Ошибка валидации при обновлении аватара'));
-      } else if (err.name === 'CastError') {
-        next(new IncorrectDataError('Некорректные данные пользователя при обновлении аватара'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь не найден при обновлении аватара'));
       } else next(err);
     });
 };
