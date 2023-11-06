@@ -13,7 +13,7 @@ const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#
 router.get('/me', getMe);
 router.get('/:id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    id: Joi.string().required().hex().length(24),
   }),
 }), getUserById);
 router.get('/', getUsers);

@@ -68,11 +68,7 @@ module.exports.login = (req, res, next) => {
         }),
       });
     })
-    .catch((err) => {
-      if (err.message === 'Wrong email or password') {
-        next(new NoAuthError('Некорректный email или пароль'));
-      } else next(err);
-    });
+    .catch(next);
 };
 
 module.exports.getMe = (req, res, next) => {

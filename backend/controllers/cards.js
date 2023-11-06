@@ -41,8 +41,6 @@ module.exports.deleteCardById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new IncorrectDataError('Некорректные данные карточки при удалении'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Карточка не найдена при удалении'));
       } else next(err);
     });
 };
@@ -61,8 +59,6 @@ module.exports.putCardLike = (req, res, next) => Card.findByIdAndUpdate(
   .catch((err) => {
     if (err.name === 'CastError') {
       next(new IncorrectDataError('Некорректные данные карточки при проставлении лайка'));
-    } else if (err.name === 'NotFoundError') {
-      next(new NotFoundError('Карточка не найдена при проставлении лайка'));
     } else next(err);
   });
 
@@ -80,7 +76,5 @@ module.exports.deleteCardLike = (req, res, next) => Card.findByIdAndUpdate(
   .catch((err) => {
     if (err.name === 'CastError') {
       next(new IncorrectDataError('Некорректные данные карточки при удалении лайка'));
-    } else if (err.name === 'NotFoundError') {
-      next(new NotFoundError('Карточка не найдена при удалении лайка'));
     } else next(err);
   });
